@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2>Doctors list:</h2>
+    {% for doctor in doctors %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + doctor.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#"> {{ doctor.id }} </a>
+            {% if current_user.role == 'admin' %}
+            </div>
+            <h2><a class="article-title" href="{{ url_for('user', user_id=doctor.id_number, user_role='doctor') }}"> {{ doctor.surname }} {{ doctor.name }}</a></h2>
+            <p class="article-content">{{ doctor.password }}</p>
+          </div>
+          {% else %}
+          </div>
+            <h2><a class="article-title" href="#"> {{ doctor.surname }} {{ doctor.name }}</a></h2>
+          </div>
+            {% endif %}
+        </article>
+    {% endfor %}
+    {% if current_user.role == 'admin' %}
+    <h2><a href="{{url_for('register_doctor')}}">Add doctor</a></h2>
+    {% endif %}
+{% endblock content %}

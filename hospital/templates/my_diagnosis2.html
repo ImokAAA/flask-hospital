@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form method="POST" action="">
+    <div class="form-group">
+                {{ form.date.label(class="form-control-label") }}
+                {% if form.date.errors %}
+                    {{ form.date(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.date.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.date(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+    <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+    Diagnosises list:   
+    {% for diagnosis in diagnosises %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='diagnosis_pics/' + diagnosis[2]) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              {% if current_user.role == 'patient' %}
+              <a class="mr-2" href="#">Doctor: {{ diagnosis[0] }} {{ diagnosis[1] }}</a>
+              {% elif current_user.role == 'doctor' %}
+              <a class="mr-2" href="#">Patient: {{ diagnosis[0] }} {{ diagnosis[1] }}</a>
+              {% endif %}
+              <a class="mr-2" href="#">Date posted: {{ diagnosis[5] }} </a>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('diagnosis', diagnosis_id=diagnosis[6]) }}">{{ diagnosis[3] }}</a></h2>
+            <p class="article-content">{{ diagnosis[4] }}</p>
+          </div>
+        </article>
+    {% endfor %}
+    
+{% endblock content %}

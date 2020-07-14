@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+    <h2>Welcome, {{ current_user.role }} {{current_user.surname}} {{current_user.name}}!</h2>
+    {% endif %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='post_pics/default.png') }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">03.12.2002</a>
+            </div> 
+            <h2><a class="article-title" href="#">News</a></h2>
+            <p class="article-content">News Text</p>
+          </div>
+        </article>
+    {% if current_user.role == 'admin' %}
+    <a class="mr-2" href="#">Add post</a>
+    {% endif %}
+{% endblock content %}
